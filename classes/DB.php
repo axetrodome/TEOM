@@ -24,7 +24,7 @@ class DB{
 		}
 		return self::$_instance;
 	}
-	public function query($sql,$params[]){
+	public function query($sql,$params = array()){
 		$this->_errors = false;
 		if($this->_query = $this->_pdo->prepare($sql)){
 			if($params){
@@ -43,7 +43,7 @@ class DB{
 		}
 		return $this; // method chaining
 	}
-	public function action($table,$action,$where[]){
+	public function action($table,$action,$where = array()){
 		$operators = ['<','>','!=','<=','>=','='];
 		if(count($where) == 3){
 			$field = $where[0];
@@ -52,12 +52,12 @@ class DB{
 
 			if(in_array($operator, $operators)){
 				$sql = "{$action} FROM {$table} WHERE $field $operator ?";
-				return $this->query($sql,array($values))
+				return $this->query($sql,array($values));
 			}
 		}
 		return false;
 	}
-	public function insert($table,$fields[]){
+	public function insert($table,$fields = array()){
 		$keys = array_keys($fields);
 		$x = 1;
 		$value = '';
